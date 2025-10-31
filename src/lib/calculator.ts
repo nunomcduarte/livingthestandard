@@ -48,6 +48,7 @@ export interface SimulationResults {
     euro: number
     bitcoin: number
     bitcoinWithExpenses: number
+    bitcoinPrice: number
   }>
 }
 
@@ -250,12 +251,17 @@ export function runSimulation(inputs: SimulationInputs): SimulationResults {
   const sampleRate = Math.max(1, Math.floor(dataPoints.length / 50))
   const chartData = dataPoints
     .filter((_, index) => index % sampleRate === 0 || index === dataPoints.length - 1)
-    .map((point) => ({
-      period: point.date,
-      euro: Math.round(point.euroBalance),
-      bitcoin: Math.round(point.bitcoinBalance),
-      bitcoinWithExpenses: Math.round(point.bitcoinWithExpensesBalance),
-    }))
+    .map((point) => {
+      const pointDate = new Date(point.date)
+      const btcPrice = getBitcoinPrice(pointDate)
+      return {
+        period: point.date,
+        euro: Math.round(point.euroBalance),
+        bitcoin: Math.round(point.bitcoinBalance),
+        bitcoinWithExpenses: Math.round(point.bitcoinWithExpensesBalance),
+        bitcoinPrice: Math.round(btcPrice),
+      }
+    })
 
   return {
     dataPoints,
