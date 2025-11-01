@@ -338,24 +338,6 @@ export function SimulatorForm() {
                     />
                   </div>
                 </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="precision" className="text-base font-medium">
-                    Simulation Precision
-                  </Label>
-                  <Select
-                    value={inputs.precision}
-                    onValueChange={(value) => setInputs({ ...inputs, precision: value as "daily" | "monthly" })}
-                  >
-                    <SelectTrigger id="precision" className="h-12">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="monthly">Monthly (Faster)</SelectItem>
-                      <SelectItem value="daily">Daily (More Accurate)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
               </div>
 
               <Button type="submit" size="lg" className="w-full h-12 text-base font-semibold">

@@ -6,7 +6,7 @@ export function SimulatorHero() {
       <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl text-balance">
-            What if you had lived on Bitcoin?
+            What if you saved your entire salary into Bitcoin?
           </h2>
           <p className="mt-6 text-lg leading-relaxed text-primary-foreground/90 text-pretty">
             Discover how your finances would have evolved if you had embraced Bitcoin instead of euros. Compare real

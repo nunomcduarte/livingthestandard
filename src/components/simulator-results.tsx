@@ -19,20 +19,15 @@ export function SimulatorResults({ inputs, onReset }: SimulatorResultsProps) {
   const endYear = new Date(inputs.endDate).getFullYear()
   const yearsDiff = endYear - startYear
 
-  const handleShare = async () => {
-    const text = `I just simulated ${yearsDiff} years of living on Bitcoin vs Euro. The difference is eye-opening! Try it yourself:`
+  const handleShare = () => {
+    const bitcoinGain = results.bitcoinWithExpensesGainPercentage
+    const gainText = bitcoinGain > 0 ? `+${bitcoinGain.toFixed(1)}%` : `${bitcoinGain.toFixed(1)}%`
+    
+    const text = `I just simulated ${yearsDiff} years of living on #Bitcoin vs Euro.\n\nBitcoin strategy: ${gainText} ${bitcoinGain > 0 ? '📈' : '📉'}\n\nTry it yourself:`
     const url = window.location.href
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: "Live the Standard Simulator", text, url })
-      } catch (err) {
-        console.log("Share cancelled")
-      }
-    } else {
-      navigator.clipboard.writeText(`${text} ${url}`)
-      alert("Link copied to clipboard!")
-    }
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+    
+    window.open(twitterUrl, '_blank', 'width=550,height=420')
   }
 
   return (
@@ -45,7 +40,7 @@ export function SimulatorResults({ inputs, onReset }: SimulatorResultsProps) {
           </Button>
           <Button variant="outline" onClick={handleShare} className="gap-2 bg-transparent">
             <Share2 className="h-4 w-4" />
-            Share Results
+            Share on X
           </Button>
         </div>
 
@@ -153,31 +148,6 @@ export function SimulatorResults({ inputs, onReset }: SimulatorResultsProps) {
           </CardHeader>
           <CardContent>
             <ComparisonChart data={results.chartData} />
-          </CardContent>
-        </Card>
-
-        {/* Financial Summary */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle>Financial Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid gap-4 sm:grid-cols-3">
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Salary Received</p>
-                <p className="text-xl font-semibold">{formatCurrency(results.totalSalaryReceived)}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Total Expenses Paid</p>
-                <p className="text-xl font-semibold">{formatCurrency(results.totalExpensesPaid)}</p>
-              </div>
-              <div>
-                <p className="text-sm text-muted-foreground mb-1">Net Savings</p>
-                <p className="text-xl font-semibold text-accent">
-                  {formatCurrency(results.totalSalaryReceived - results.totalExpensesPaid)}
-                </p>
-              </div>
-            </div>
           </CardContent>
         </Card>
 
